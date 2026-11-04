@@ -1,0 +1,6 @@
+{
+  "name": "Kindred Horizons Foundation",
+  "description": "An accredited global humanitarian initiative funding clean water, emergency medicine, ecological reserves, and crisis relief worldwide.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

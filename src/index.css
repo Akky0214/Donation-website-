@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Fraunces", Georgia, Cambria, serif;
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+}
+
+/* Leaflet Stacking Context Isolation:
+   Prevents Leaflet controls (z-index: 1000) and panes (z-index: 400-700)
+   from bleeding over the sticky header (z-40) or modal dialogs (z-50). */
+.leaflet-container {
+  font-family: inherit;
+  isolation: isolate;
+  z-index: 0 !important;
+}
+
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 20 !important;
+}
+
+.leaflet-control {
+  z-index: 20 !important;
+}
+
+.leaflet-pane {
+  z-index: 10 !important;
+}
+
+.leaflet-popup-pane {
+  z-index: 25 !important;
+}
+
+/* Custom Leaflet Map styling for Kindred Horizons Trust */
+.leaflet-popup-content-wrapper {
+  background: #ffffff !important;
+  color: #1c1917 !important;
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.12), 0 8px 10px -6px rgb(0 0 0 / 0.08) !important;
+  border: 1px solid #e7e5e4 !important;
+  border-radius: 12px !important;
+  padding: 4px !important;
+}
+
+.leaflet-popup-tip {
+  background: #ffffff !important;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1) !important;
+}
+
+.custom-leaflet-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Ensure map tiles render with crisp contrast and no blur */
+.leaflet-tile {
+  filter: contrast(103%) saturate(105%);
+}
+
+.leaflet-container img.leaflet-tile {
+  max-width: none !important;
+  max-height: none !important;
+}
