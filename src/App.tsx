@@ -21,7 +21,6 @@ import { CelebrationEffects } from './components/CelebrationEffects';
 import { Campaign, DonationFrequency, DonationReceipt, DonorWallEntry, TrustSettings, NewsletterSubscriber, AdminUser } from './types/donation';
 import { INITIAL_CAMPAIGNS, INITIAL_DONOR_WALL, DEFAULT_TRUST_SETTINGS, DEFAULT_SUBSCRIBERS } from './data/mockData';
 import { CheckCircle2, Shield, Users } from 'lucide-react';
-import { LanguageProvider } from './context/LanguageContext';
 
 const STORAGE_KEY_RECEIPTS = 'kindred_receipts_inr_v2';
 const STORAGE_KEY_DONORS = 'kindred_donors_inr_v2';
@@ -313,8 +312,7 @@ export default function App() {
   };
 
   return (
-    <LanguageProvider>
-      <div className="min-h-screen flex flex-col bg-[#FAF8F5] text-stone-900 selection:bg-amber-200">
+    <div className="min-h-screen flex flex-col bg-[#FAF8F5] text-stone-900 selection:bg-amber-200">
       {/* Celebratory Particle Confetti on successful donation */}
       <CelebrationEffects active={isCelebrating} />
 
@@ -479,7 +477,6 @@ export default function App() {
           adminEmail={SUPER_ADMIN_EMAIL}
         />
       )}
-      </div>
-    </LanguageProvider>
+    </div>
   );
 }

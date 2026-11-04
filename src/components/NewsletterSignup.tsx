@@ -16,7 +16,6 @@ import {
   GraduationCap
 } from 'lucide-react';
 import { NewsletterSubscriber } from '../types/donation';
-import { useLanguage } from '../context/LanguageContext';
 
 interface NewsletterSignupProps {
   onSubscribe: (data: {
@@ -29,21 +28,18 @@ interface NewsletterSignupProps {
   totalSubscribers?: number;
 }
 
-const getInterestOptions = (isHi: boolean) => [
-  { id: 'water', label: isHi ? 'ग्रामीण बोरवेल व नल' : 'Rural Borewells', icon: Droplets },
-  { id: 'medical', label: isHi ? 'बाल चिकित्सा आईसीयू' : 'Pediatric ICUs', icon: Stethoscope },
-  { id: 'ecology', label: isHi ? 'पश्चिमी घाट संरक्षण' : 'Western Ghats', icon: TreePine },
-  { id: 'crisis', label: isHi ? 'बाढ़ राहत व बचाव' : 'Flood Triage', icon: LifeBuoy },
-  { id: 'education', label: isHi ? 'बालिका एसटीईएम' : 'Girls STEM', icon: GraduationCap }
+const INTEREST_OPTIONS = [
+  { id: 'water', label: 'Rural Borewells', icon: Droplets },
+  { id: 'medical', label: 'Pediatric ICUs', icon: Stethoscope },
+  { id: 'ecology', label: 'Western Ghats', icon: TreePine },
+  { id: 'crisis', label: 'Flood Triage', icon: LifeBuoy },
+  { id: 'education', label: 'Girls STEM', icon: GraduationCap }
 ];
 
 export const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
   onSubscribe,
   totalSubscribers = 1248
 }) => {
-  const { t, language } = useLanguage();
-  const isHi = language === 'hi';
-  const interestOptions = getInterestOptions(isHi);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [frequency, setFrequency] = useState<'weekly_dispatch' | 'monthly_impact' | 'critical_alerts'>('weekly_dispatch');
@@ -68,7 +64,7 @@ export const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
 
     const trimmedEmail = email.trim().toLowerCase();
     if (!trimmedEmail || !trimmedEmail.includes('@') || !trimmedEmail.includes('.')) {
-      setError(isHi ? 'कृपया एक मान्य ईमेल पता दर्ज करें (उदा. name@domain.in)' : 'Please provide a valid email address (e.g. name@domain.in)');
+      setError('Please provide a valid email address (e.g. name@domain.in)');
       return;
     }
 
@@ -92,7 +88,7 @@ export const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
           isExisting: result.isExisting
         });
       } else {
-        setError(result.message || (isHi ? 'सदस्यता लेने में असमर्थ। कृपया पुनः प्रयास करें।' : 'Unable to subscribe. Please try again.'));
+        setError(result.message || 'Unable to subscribe. Please try again.');
       }
     }, 450);
   };
@@ -126,15 +122,15 @@ export const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
           <div className="lg:col-span-5 space-y-6">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-stone-800/80 border border-stone-700/80 text-amber-300 text-xs font-mono">
               <Mail className="w-3.5 h-3.5 text-amber-400" />
-              <span>{t('newsletter.badge')}</span>
+              <span>Frontline Dispatch Service</span>
             </div>
 
             <div>
               <h2 className="text-3xl sm:text-4xl font-serif font-normal text-stone-100 tracking-tight leading-tight">
-                {t('newsletter.title')}
+                Direct Grassroots Dispatches & Audited Impact
               </h2>
               <p className="mt-3 text-stone-300 text-sm leading-relaxed">
-                {t('newsletter.subtitle')}
+                Receive fortnightly high-resolution field logs, geo-tagged solar pump flow readings, neonatal ambulance mission stats, and Section 80G tax utilization summaries.
               </p>
             </div>
 
@@ -144,10 +140,7 @@ export const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
                   <CheckCircle2 className="w-3.5 h-3.5" />
                 </div>
                 <div>
-                  <span className="text-stone-200 font-medium">
-                    {isHi ? 'शून्य प्रचार व विज्ञापन: ' : 'Zero Promotional Noise: '}
-                  </span>
-                  {isHi ? 'केवल न्यासियों और फील्ड टीमों द्वारा लिखित सत्यापित फील्ड लॉग।' : 'Strictly operational field logs authored by trustees and field teams.'}
+                  <span className="text-stone-200 font-medium">Zero Promotional Noise:</span> Strictly operational field logs authored by trustees and field teams.
                 </div>
               </div>
 
@@ -156,10 +149,7 @@ export const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
                   <FileText className="w-3.5 h-3.5" />
                 </div>
                 <div>
-                  <span className="text-stone-200 font-medium">
-                    {isHi ? 'फॉर्म 10BD व 80G स्मरण: ' : 'Form 10BD & 80G Reminders: '}
-                  </span>
-                  {isHi ? 'वार्षिक आयकर कटौती प्रमाण पत्र तैयार होते ही अग्रिम सूचना।' : 'Advance notification when annual tax deduction certificates are ready to download.'}
+                  <span className="text-stone-200 font-medium">Form 10BD & 80G Reminders:</span> Advance notification when annual tax deduction certificates are ready to download.
                 </div>
               </div>
 
@@ -168,10 +158,7 @@ export const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
                   <ShieldCheck className="w-3.5 h-3.5" />
                 </div>
                 <div>
-                  <span className="text-stone-200 font-medium">
-                    {isHi ? 'गोपनीयता चार्टर: ' : 'Privacy Charter: '}
-                  </span>
-                  {isHi ? 'हम कभी दानदाता सूची नहीं बेचते। किसी भी समय एक क्लिक में अनसब्सक्राइब करें।' : 'We never sell donor lists or deploy third-party trackers. Unsubscribe at any click.'}
+                  <span className="text-stone-200 font-medium">Privacy Charter:</span> We never sell donor lists or deploy third-party trackers. Unsubscribe at any click.
                 </div>
               </div>
             </div>
@@ -241,15 +228,11 @@ export const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
                   >
                     <div className="flex items-center justify-between border-b border-stone-800/80 pb-4">
                       <div>
-                        <h3 className="text-lg font-serif font-medium text-white">
-                          {isHi ? 'ज़मीनी अपडेट्स हेतु पंजीकरण' : 'Enroll for Field Updates'}
-                        </h3>
-                        <p className="text-xs text-stone-400">
-                          {isHi ? 'किंडरेड होराइजन्स ट्रस्ट का आधिकारिक संवाद चैनल' : 'Official communication channel of Kindred Horizons Trust'}
-                        </p>
+                        <h3 className="text-lg font-serif font-medium text-white">Enroll for Field Updates</h3>
+                        <p className="text-xs text-stone-400">Official communication channel of Kindred Horizons Trust</p>
                       </div>
                       <span className="text-[11px] font-mono px-2.5 py-1 rounded-md bg-stone-900 border border-stone-800 text-stone-400">
-                        {isHi ? 'धारा 80G प्रमाणित' : 'Section 80G Certified'}
+                        Section 80G Certified
                       </span>
                     </div>
 
@@ -263,7 +246,7 @@ export const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                       <div>
                         <label className="block text-xs font-mono text-stone-400 mb-1.5">
-                          {isHi ? 'आपका ईमेल पता' : 'Your Email Address'} <span className="text-amber-400">*</span>
+                          Your Email Address <span className="text-amber-400">*</span>
                         </label>
                         <div className="relative">
                           <input
@@ -280,11 +263,11 @@ export const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
 
                       <div>
                         <label className="block text-xs font-mono text-stone-400 mb-1.5">
-                          {isHi ? 'पूरा नाम (वैकल्पिक)' : 'Full Name (Optional)'}
+                          Full Name (Optional)
                         </label>
                         <input
                           type="text"
-                          placeholder={isHi ? 'उदा. रामेश्वर जोशी' : 'e.g. Rameshwar Joshi'}
+                          placeholder="e.g. Rameshwar Joshi"
                           value={name}
                           onChange={(e) => setName(e.target.value)}
                           className="w-full bg-stone-900/90 border border-stone-700 rounded-xl py-2.5 px-3 text-sm text-white placeholder:text-stone-500 focus:outline-hidden focus:border-amber-400"
@@ -295,13 +278,13 @@ export const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
                     {/* Dispatch Frequency Selector */}
                     <div>
                       <label className="block text-xs font-mono text-stone-400 mb-2">
-                        {isHi ? 'अपडेट प्राप्ति अंतराल' : 'Preferred Dispatch Cadence'}
+                        Preferred Dispatch Cadence
                       </label>
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                         {[
-                          { id: 'weekly_dispatch', label: t('newsletter.freq.weekly'), desc: isHi ? 'तस्वीरें व टेलीमेट्री' : 'Photos & telemetry' },
-                          { id: 'monthly_impact', label: t('newsletter.freq.monthly'), desc: isHi ? 'ऑडिटेड वित्तीय रिपोर्ट' : 'Audited financials' },
-                          { id: 'critical_alerts', label: t('newsletter.freq.urgent'), desc: isHi ? '2x मैच आपातकालीन राहत' : '2x match flood triage' }
+                          { id: 'weekly_dispatch', label: 'Fortnightly Field Log', desc: 'Photos & telemetry' },
+                          { id: 'monthly_impact', label: 'Monthly 80G Brief', desc: 'Audited financials' },
+                          { id: 'critical_alerts', label: 'Urgent Disaster Appeals', desc: '2x match flood triage' }
                         ].map((item) => (
                           <button
                             key={item.id}
@@ -323,10 +306,10 @@ export const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
                     {/* Causes of Interest Pills */}
                     <div>
                       <label className="block text-xs font-mono text-stone-400 mb-2">
-                        {isHi ? 'प्राथमिक सेवा क्षेत्र' : 'Specific Causes to Highlight'}
+                        Specific Causes to Highlight
                       </label>
                       <div className="flex flex-wrap gap-1.5">
-                        {interestOptions.map((opt) => {
+                        {INTEREST_OPTIONS.map((opt) => {
                           const isSelected = selectedInterests.includes(opt.id);
                           const Icon = opt.icon;
                           return (
@@ -358,17 +341,17 @@ export const NewsletterSignup: React.FC<NewsletterSignupProps> = ({
                         {isSubmitting ? (
                           <>
                             <div className="w-4 h-4 border-2 border-stone-950 border-t-transparent rounded-full animate-spin" />
-                            <span>{isHi ? 'पंजीकरण हो रहा है...' : 'Enrolling in Dispatch Vault...'}</span>
+                            <span>Enrolling in Dispatch Vault...</span>
                           </>
                         ) : (
                           <>
                             <Send className="w-4 h-4" />
-                            <span>{t('newsletter.btn_subscribe')}</span>
+                            <span>Subscribe to Field Dispatches</span>
                           </>
                         )}
                       </button>
                       <p className="text-[11px] text-stone-500 text-center mt-2 font-mono">
-                        {isHi ? 'सीधे इनबॉक्स में प्रेषण · कभी भी 1 क्लिक में रद्द करें · फॉर्म 10BD अनुपालक' : 'Instant delivery to inbox · Unsubscribe anytime with 1 click · Form 10BD compliant'}
+                        Instant delivery to inbox · Unsubscribe anytime with 1 click · Form 10BD compliant
                       </p>
                     </div>
                   </motion.form>

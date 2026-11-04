@@ -3,7 +3,6 @@ import { motion } from 'motion/react';
 import { TRANSPARENCY_METRICS } from '../data/mockData';
 import { Download, Award, FileCheck, MapPin } from 'lucide-react';
 import { ProjectLocationsMap } from './ProjectLocationsMap';
-import { useLanguage } from '../context/LanguageContext';
 
 interface TransparencySectionProps {
   onOpenDonate?: (campaignId?: string) => void;
@@ -14,7 +13,6 @@ export const TransparencySection: React.FC<TransparencySectionProps> = ({
   onOpenDonate,
   onOpenFieldReport
 }) => {
-  const { language, t } = useLanguage();
   const [downloadNotice, setDownloadNotice] = useState<string | null>(null);
 
   const handleDownloadReport = (reportName: string) => {
@@ -37,13 +35,13 @@ export const TransparencySection: React.FC<TransparencySectionProps> = ({
         {/* Section Header */}
         <div className="max-w-3xl mb-12">
           <div className="text-xs font-mono tracking-widest uppercase text-stone-500 mb-2">
-            {t('transparency.kicker')}
+            Governance & Statutory Integrity
           </div>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-medium text-stone-900 tracking-tight">
-            {t('transparency.title')}
+            Radical financial transparency, audited to the paisa
           </h2>
           <p className="mt-4 text-sm sm:text-base text-stone-600 leading-relaxed">
-            {t('transparency.subtitle')}
+            We hold ourselves to the highest standards of fiscal accountability under the Indian Trusts Act and Income Tax Act. Every Rupee transferred from donor escrow into frontline procurement is audited by certified Chartered Accountants with annual Form 10BD/10BE filings.
           </p>
         </div>
 

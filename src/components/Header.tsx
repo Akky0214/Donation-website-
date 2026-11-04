@@ -11,11 +11,8 @@ import {
   QrCode,
   CheckCircle2,
   Activity,
-  MapPin,
-  Languages,
-  Globe
+  MapPin
 } from 'lucide-react';
-import { useLanguage } from '../context/LanguageContext';
 
 interface HeaderProps {
   onOpenDonate: (campaignId?: string) => void;
@@ -33,7 +30,6 @@ export const Header: React.FC<HeaderProps> = ({
   isAdmin
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { language, setLanguage, toggleLanguage, t } = useLanguage();
 
   // Lock background scroll and listen for Escape key when mobile menu is open
   useEffect(() => {
@@ -95,10 +91,8 @@ export const Header: React.FC<HeaderProps> = ({
             }}
             className="text-lg sm:text-xl font-serif font-medium tracking-tight text-stone-900 whitespace-nowrap shrink-0 hover:text-stone-700 transition-colors flex items-center gap-1.5"
           >
-            <span>{t('brand.title')}</span>
-            <span className="text-[10px] sm:text-xs font-mono font-medium text-stone-600 bg-stone-100 border border-stone-200 px-1.5 py-0.5 rounded">
-              {t('brand.trust')}
-            </span>
+            <span>Kindred Horizons</span>
+            <span className="text-[10px] sm:text-xs font-mono font-medium text-stone-600 bg-stone-100 border border-stone-200 px-1.5 py-0.5 rounded">Trust</span>
           </a>
 
           {/* Zone 2: Desktop Navigation with smooth offset scrolling */}
@@ -108,7 +102,7 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={() => handleNavClick('#causes')}
               className="hover:text-stone-900 transition-colors whitespace-nowrap shrink-0 cursor-pointer text-stone-600"
             >
-              {t('nav.causes')}
+              Active Causes
             </button>
             <button
               type="button"
@@ -116,7 +110,7 @@ export const Header: React.FC<HeaderProps> = ({
               className="hover:text-stone-900 transition-colors whitespace-nowrap shrink-0 flex items-center gap-1.5 cursor-pointer text-stone-600"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span>{t('nav.live_feed')}</span>
+              <span>Live Feed</span>
             </button>
             <button
               type="button"
@@ -124,28 +118,28 @@ export const Header: React.FC<HeaderProps> = ({
               className="hover:text-stone-900 transition-colors whitespace-nowrap shrink-0 flex items-center gap-1 cursor-pointer text-stone-600"
             >
               <MapPin className="w-3.5 h-3.5 text-stone-500" />
-              <span>{t('nav.field_map')}</span>
+              <span>Field Map</span>
             </button>
             <button
               type="button"
               onClick={() => handleNavClick('#impact-calculator')}
               className="hover:text-stone-900 transition-colors whitespace-nowrap shrink-0 cursor-pointer text-stone-600"
             >
-              {t('nav.impact_calculator')}
+              Impact Calculator
             </button>
             <button
               type="button"
               onClick={() => handleNavClick('#transparency')}
               className="hover:text-stone-900 transition-colors whitespace-nowrap shrink-0 cursor-pointer text-stone-600"
             >
-              {t('nav.transparency')}
+              Section 80G & Audits
             </button>
             <button
               type="button"
               onClick={() => handleNavClick('#donor-wall')}
               className="hover:text-stone-900 transition-colors whitespace-nowrap shrink-0 cursor-pointer text-stone-600"
             >
-              {t('nav.donor_wall')}
+              Donor Wall
             </button>
             <button
               type="button"
@@ -153,7 +147,7 @@ export const Header: React.FC<HeaderProps> = ({
               className="hover:text-stone-900 transition-colors whitespace-nowrap shrink-0 inline-flex items-center gap-1.5 cursor-pointer text-stone-600"
             >
               <Receipt className="w-4 h-4 text-stone-500" />
-              <span>{t('nav.receipts')}</span>
+              <span>80G Receipts</span>
               {myDonationCount > 0 && (
                 <span className="text-xs font-mono font-semibold text-amber-800 bg-amber-100 px-1.5 py-0.2 rounded-full">
                   {myDonationCount}
@@ -162,63 +156,17 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
           </nav>
 
-          {/* Zone 3: Action Buttons, Bilingual Switcher & Mobile Menu Button */}
+          {/* Zone 3: Action Buttons & 3-Line Menu Button */}
           <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-            {/* Desktop Language Switcher Segmented Control */}
-            <div
-              className="hidden sm:inline-flex items-center rounded-lg border border-stone-200 bg-white p-0.5 text-xs font-mono shadow-xs"
-              role="group"
-              aria-label="Language selection"
-            >
-              <button
-                type="button"
-                onClick={() => setLanguage('en')}
-                className={`px-2.5 py-1 rounded-md transition-all cursor-pointer flex items-center gap-1 ${
-                  language === 'en'
-                    ? 'bg-stone-900 text-white font-semibold shadow-xs'
-                    : 'text-stone-600 hover:text-stone-900 hover:bg-stone-50'
-                }`}
-                title="Switch to English"
-                aria-pressed={language === 'en'}
-              >
-                <span>EN</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setLanguage('hi')}
-                className={`px-2.5 py-1 rounded-md transition-all cursor-pointer flex items-center gap-1 ${
-                  language === 'hi'
-                    ? 'bg-amber-700 text-white font-semibold shadow-xs'
-                    : 'text-stone-600 hover:text-stone-900 hover:bg-stone-50'
-                }`}
-                title="हिन्दी में पढ़ें"
-                aria-pressed={language === 'hi'}
-              >
-                <span>हिन्दी</span>
-              </button>
-            </div>
-
-            {/* Mobile Quick Tap Language Switcher Button (visible on mobile screens) */}
-            <button
-              type="button"
-              onClick={toggleLanguage}
-              className="sm:hidden px-2 py-1.5 rounded-lg border border-stone-300 bg-white text-stone-800 text-xs font-mono font-semibold flex items-center gap-1 shadow-2xs hover:bg-stone-50 active:scale-95 cursor-pointer"
-              title={language === 'en' ? 'Switch to Hindi (हिन्दी)' : 'Switch to English (EN)'}
-              aria-label={language === 'en' ? 'हिन्दी में बदलें' : 'Switch to English'}
-            >
-              <Languages className="w-3.5 h-3.5 text-amber-700" />
-              <span>{language === 'en' ? 'हिन्दी' : 'EN'}</span>
-            </button>
-
             {/* Desktop / Tablet Admin button */}
             <button
               type="button"
               onClick={onOpenAdmin}
-              className="hidden md:inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-2 text-xs font-semibold text-stone-800 bg-stone-100 hover:bg-stone-200 border border-stone-300 rounded-lg transition-all cursor-pointer whitespace-nowrap shrink-0"
+              className="hidden sm:inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-2 text-xs font-semibold text-stone-800 bg-stone-100 hover:bg-stone-200 border border-stone-300 rounded-lg transition-all cursor-pointer whitespace-nowrap shrink-0"
               title="Open Executive Admin Portal"
             >
               <Shield className="w-3.5 h-3.5 text-amber-700" />
-              <span>{t('nav.admin')}</span>
+              <span>Admin Control</span>
             </button>
 
             {/* Primary Donate CTA */}
@@ -228,7 +176,7 @@ export const Header: React.FC<HeaderProps> = ({
               className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 text-xs sm:text-sm font-semibold text-white bg-stone-900 rounded-lg hover:bg-stone-800 active:scale-[0.98] transition-all shadow-xs cursor-pointer whitespace-nowrap shrink-0"
             >
               <Heart className="w-4 h-4 text-rose-400 fill-rose-400/30" />
-              <span>{t('nav.donate')}</span>
+              <span>Donate in ₹</span>
             </button>
 
             {/* Three-Line Menu Toggle Button */}
@@ -290,48 +238,9 @@ export const Header: React.FC<HeaderProps> = ({
             <div className="flex items-center justify-between pb-3.5 mb-3 border-b border-stone-200 text-xs">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span className="font-mono text-stone-600 font-medium">{t('mobile.sec80g_badge')}</span>
+                <span className="font-mono text-stone-600 font-medium">Sec 80G Certified Seva</span>
               </div>
               <span className="font-mono text-[11px] text-stone-500">DL/2023/0381920</span>
-            </div>
-
-            {/* Dedicated Mobile Language Switcher Card */}
-            <div className="p-3 bg-white rounded-xl border border-stone-200/90 mb-3 shadow-xs">
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-1.5 text-xs font-medium text-stone-700">
-                  <Languages className="w-3.5 h-3.5 text-amber-700" />
-                  <span>{t('mobile.switch_lang')}</span>
-                </div>
-                <span className="text-[11px] font-mono font-semibold text-emerald-700">
-                  {language === 'en' ? 'English (Active)' : 'हिन्दी (सक्रिय)'}
-                </span>
-              </div>
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                <button
-                  type="button"
-                  onClick={() => setLanguage('en')}
-                  className={`py-2 px-3 rounded-lg border font-medium flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                    language === 'en'
-                      ? 'bg-stone-900 text-white border-stone-900 shadow-xs'
-                      : 'bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100'
-                  }`}
-                >
-                  <span>English</span>
-                  {language === 'en' && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setLanguage('hi')}
-                  className={`py-2 px-3 rounded-lg border font-medium flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                    language === 'hi'
-                      ? 'bg-amber-700 text-white border-amber-700 shadow-xs'
-                      : 'bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100'
-                  }`}
-                >
-                  <span>हिन्दी (Hindi)</span>
-                  {language === 'hi' && <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>}
-                </button>
-              </div>
             </div>
 
             {/* Nav Links formatted as card tiles */}
@@ -347,10 +256,10 @@ export const Header: React.FC<HeaderProps> = ({
                   </div>
                   <div>
                     <div className="text-sm font-semibold text-stone-900 group-hover:text-emerald-800 transition-colors">
-                      {t('nav.causes')}
+                      Active Causes
                     </div>
                     <div className="text-xs text-stone-500">
-                      {t('mobile.causes_desc')}
+                      Frontline water, medical ICU & crisis relief
                     </div>
                   </div>
                 </div>
@@ -368,11 +277,11 @@ export const Header: React.FC<HeaderProps> = ({
                   </div>
                   <div>
                     <div className="text-sm font-semibold text-stone-900 group-hover:text-emerald-800 transition-colors flex items-center gap-2">
-                      <span>{t('nav.live_feed')}</span>
+                      <span>Live Milestones Feed</span>
                       <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                     </div>
                     <div className="text-xs text-stone-500">
-                      {t('mobile.live_desc')}
+                      Real-time telemetry & verified operations
                     </div>
                   </div>
                 </div>
@@ -390,13 +299,13 @@ export const Header: React.FC<HeaderProps> = ({
                   </div>
                   <div>
                     <div className="text-sm font-semibold text-stone-900 group-hover:text-cyan-800 transition-colors flex items-center gap-1.5">
-                      <span>{t('nav.field_map')}</span>
+                      <span>Interactive Field Map</span>
                       <span className="text-[10px] font-mono font-medium bg-cyan-100 text-cyan-800 px-1.5 py-0.5 rounded">
                         9 Sites
                       </span>
                     </div>
                     <div className="text-xs text-stone-500">
-                      {t('mobile.map_desc')}
+                      GPS-verified borewells, ICU hubs & rescue barges
                     </div>
                   </div>
                 </div>
@@ -414,10 +323,10 @@ export const Header: React.FC<HeaderProps> = ({
                   </div>
                   <div>
                     <div className="text-sm font-semibold text-stone-900 group-hover:text-amber-800 transition-colors">
-                      {t('nav.impact_calculator')}
+                      Impact Calculator
                     </div>
                     <div className="text-xs text-stone-500">
-                      {t('mobile.impact_desc')}
+                      Simulate tangible human outcomes per ₹ donated
                     </div>
                   </div>
                 </div>
@@ -435,13 +344,13 @@ export const Header: React.FC<HeaderProps> = ({
                   </div>
                   <div>
                     <div className="text-sm font-semibold text-stone-900 group-hover:text-sky-800 transition-colors flex items-center gap-1.5">
-                      <span>{t('nav.transparency')}</span>
+                      <span>Section 80G & Audits</span>
                       <span className="text-[10px] font-mono font-medium bg-sky-100 text-sky-800 px-1.5 py-0.5 rounded">
                         Audited Ledger
                       </span>
                     </div>
                     <div className="text-xs text-stone-500">
-                      {t('mobile.audit_desc')}
+                      Statutory accounts, CA audit & Form 10BD/10BE
                     </div>
                   </div>
                 </div>
@@ -459,10 +368,10 @@ export const Header: React.FC<HeaderProps> = ({
                   </div>
                   <div>
                     <div className="text-sm font-semibold text-stone-900 group-hover:text-indigo-800 transition-colors">
-                      {t('nav.donor_wall')}
+                      Donor Wall
                     </div>
                     <div className="text-xs text-stone-500">
-                      {t('mobile.donor_desc')}
+                      Live community contributions and blessings
                     </div>
                   </div>
                 </div>
@@ -483,7 +392,7 @@ export const Header: React.FC<HeaderProps> = ({
                   </div>
                   <div>
                     <div className="text-sm font-semibold text-stone-900 group-hover:text-rose-800 transition-colors flex items-center gap-2">
-                      <span>{t('nav.receipts')}</span>
+                      <span>Section 80G Tax Receipts</span>
                       {myDonationCount > 0 && (
                         <span className="text-[11px] font-mono font-bold bg-amber-100 text-amber-900 px-2 py-0.5 rounded-full">
                           {myDonationCount} Available
@@ -491,7 +400,7 @@ export const Header: React.FC<HeaderProps> = ({
                       )}
                     </div>
                     <div className="text-xs text-stone-500">
-                      {t('mobile.receipts_desc')}
+                      Official Form 10BE tax exemption certificates
                     </div>
                   </div>
                 </div>
@@ -513,7 +422,7 @@ export const Header: React.FC<HeaderProps> = ({
                   </div>
                   <div>
                     <div className="text-sm font-semibold text-stone-900 flex items-center gap-2">
-                      <span>{t('nav.admin')}</span>
+                      <span>Executive Admin Portal</span>
                       <span className="text-[10px] font-mono font-semibold bg-stone-800 text-amber-300 px-1.5 py-0.5 rounded">
                         Trustees
                       </span>
@@ -538,7 +447,7 @@ export const Header: React.FC<HeaderProps> = ({
                 className="w-full py-3 px-4 rounded-xl font-semibold text-sm text-white bg-stone-900 hover:bg-stone-800 active:scale-[0.98] transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Heart className="w-4 h-4 text-rose-400 fill-rose-400/40" />
-                <span>{t('nav.donate')}</span>
+                <span>Donate to Active Causes in ₹</span>
                 <QrCode className="w-4 h-4 text-amber-400 ml-1" />
               </button>
 

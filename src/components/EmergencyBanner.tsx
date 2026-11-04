@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { AlertCircle, X, ArrowRight } from 'lucide-react';
-import { useLanguage } from '../context/LanguageContext';
 
 interface EmergencyBannerProps {
   onQuickDonateEmergency: () => void;
@@ -8,7 +7,6 @@ interface EmergencyBannerProps {
 
 export const EmergencyBanner: React.FC<EmergencyBannerProps> = ({ onQuickDonateEmergency }) => {
   const [isDismissed, setIsDismissed] = useState(false);
-  const { t } = useLanguage();
 
   if (isDismissed) return null;
 
@@ -18,8 +16,7 @@ export const EmergencyBanner: React.FC<EmergencyBannerProps> = ({ onQuickDonateE
         <div className="flex items-center gap-2.5 min-w-0">
           <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />
           <p className="truncate text-stone-200">
-            <strong className="font-semibold text-white mr-1.5">{t('emergency.active')}</strong>
-            <span>{t('emergency.text')}</span>
+            <strong className="font-semibold text-white">Emergency Response Active:</strong> All donations to the Coastal Flood Triage & Sahel Water projects are currently matched 2:1 by our philanthropic syndicate.
           </p>
         </div>
         <div className="flex items-center gap-3 shrink-0">
@@ -27,7 +24,7 @@ export const EmergencyBanner: React.FC<EmergencyBannerProps> = ({ onQuickDonateE
             onClick={onQuickDonateEmergency}
             className="inline-flex items-center gap-1 font-medium text-amber-300 hover:text-amber-200 underline decoration-amber-400/50 hover:decoration-amber-300 transition-colors whitespace-nowrap cursor-pointer text-xs"
           >
-            <span>{t('emergency.cta')}</span>
+            <span>Deploy Matched Gift</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
           <button

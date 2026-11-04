@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, Check, Shield } from 'lucide-react';
-import { useLanguage } from '../context/LanguageContext';
 
 interface FooterProps {
   onSubscribe?: (data: {
@@ -12,7 +11,6 @@ interface FooterProps {
 }
 
 export const Footer: React.FC<FooterProps> = ({ onSubscribe }) => {
-  const { language, t } = useLanguage();
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
@@ -47,46 +45,47 @@ export const Footer: React.FC<FooterProps> = ({ onSubscribe }) => {
           {/* Brand & Mission Statement */}
           <div className="md:col-span-5">
             <span className="text-xl font-serif font-medium text-white tracking-tight flex items-center gap-1.5">
-              <span>{t('brand.title')}</span>
-              <span className="text-xs font-mono text-stone-400">{t('brand.tagline')}</span>
+              <span>Kindred Horizons</span>
+              <span className="text-xs font-mono text-stone-400">Public Charitable Trust</span>
             </span>
             <p className="mt-4 text-sm text-stone-400 leading-relaxed max-w-sm">
-              {t('footer.description')}
+              A legally registered non-profit trust dedicated to accelerating capital delivery directly to rural drinking water security, neonatal trauma medicine, and biodiversity conservation in India.
             </p>
             <div className="mt-6 text-xs font-mono text-stone-500 space-y-1">
-              <div>{t('footer.exemption')}</div>
+              <div>Statutory Exemption: Income Tax Act Section 80G & 12A</div>
+              <div>Trust PAN: AAATK9412F · Darpan ID: DL/2023/0381920 · MCA CSR-1: CSR00049281</div>
             </div>
           </div>
 
           {/* Quick Nav Columns */}
           <div className="md:col-span-3">
             <h4 className="text-xs font-mono uppercase tracking-wider text-stone-400 mb-4">
-              {t('footer.focus_title')}
+              Focus Areas
             </h4>
             <ul className="space-y-2.5 text-xs text-stone-400">
               <li>
                 <a href="#causes" className="hover:text-white transition-colors">
-                  {language === 'hi' ? 'सौर गहरा भूजल बोरवेल' : 'Solar Groundwater Deep Borewells'}
+                  Solar Groundwater Deep Borewells
                 </a>
               </li>
               <li>
                 <a href="#causes" className="hover:text-white transition-colors">
-                  {language === 'hi' ? 'जनजातीय मोबाइल नवजात आईसीयू' : 'Mobile Tribal Neonatal ICUs'}
+                  Mobile Tribal Neonatal ICUs
                 </a>
               </li>
               <li>
                 <a href="#causes" className="hover:text-white transition-colors">
-                  {language === 'hi' ? 'पश्चिमी घाट वर्षावन गलियारा' : 'Western Ghats Rainforest Corridors'}
+                  Western Ghats Rainforest Corridors
                 </a>
               </li>
               <li>
                 <a href="#causes" className="hover:text-white transition-colors">
-                  {language === 'hi' ? 'मानसून बाढ़ राहत व नौकाएं' : 'Monsoon Flood Triage & Skiffs'}
+                  Monsoon Flood Triage & Skiffs
                 </a>
               </li>
               <li>
                 <a href="#causes" className="hover:text-white transition-colors">
-                  {language === 'hi' ? 'ग्रामीण बालिका स्टेम व कोडिंग लैब' : 'Rural Girls STEM & Coding Labs'}
+                  Rural Girls STEM & Coding Labs
                 </a>
               </li>
             </ul>
@@ -95,12 +94,10 @@ export const Footer: React.FC<FooterProps> = ({ onSubscribe }) => {
           {/* Field Dispatch Bulletin */}
           <div className="md:col-span-4">
             <h4 className="text-xs font-mono uppercase tracking-wider text-stone-400 mb-2">
-              {language === 'hi' ? 'अग्रिम फील्ड बुलेटिन' : 'Frontline Field Dispatches'}
+              Frontline Field Dispatches
             </h4>
             <p className="text-xs text-stone-400 mb-4 leading-relaxed">
-              {language === 'hi'
-                ? 'पाक्षिक सत्यापित तस्वीरें, जल शोधन आंकड़े और स्वतंत्र चार्टर्ड अकाउंटेंट ऑडिट रिपोर्ट।'
-                : 'Bi-weekly verified photographic field logs, water volume statistics, and independent audit summaries.'}
+              Bi-weekly verified photographic field logs, water volume statistics, and independent audit summaries.
             </p>
 
             <form onSubmit={handleSubscribe} className="space-y-2">
@@ -120,18 +117,18 @@ export const Footer: React.FC<FooterProps> = ({ onSubscribe }) => {
                   {subscribed ? (
                     <>
                       <Check className="w-3.5 h-3.5 text-emerald-700" />
-                      <span>{language === 'hi' ? 'नामांकित' : 'Enrolled'}</span>
+                      <span>Enrolled</span>
                     </>
                   ) : (
                     <>
-                      <span>{language === 'hi' ? 'सदस्य बनें' : 'Subscribe'}</span>
+                      <span>Subscribe</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </>
                   )}
                 </button>
               </div>
               <span className="text-[11px] text-stone-500 block">
-                {language === 'hi' ? 'सख्त दाता गोपनीयता नीति। कोई प्रचार नहीं।' : 'Strict donor privacy charter. Zero marketing spam.'}
+                Strict donor privacy charter. Zero marketing spam.
               </span>
             </form>
           </div>
@@ -140,15 +137,15 @@ export const Footer: React.FC<FooterProps> = ({ onSubscribe }) => {
         {/* Bottom Legal / Copyright Strip */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-500 font-mono">
           <div>
-            {t('footer.copyright')}
+            © {new Date().getFullYear()} Kindred Horizons Public Charitable Trust. All rights reserved.
           </div>
           <div className="flex items-center gap-6">
             <a href="#transparency" className="hover:text-stone-300 transition-colors">
-              {language === 'hi' ? 'फॉर्म 10BD सार्वजनिक रिटर्न' : 'Form 10BD Public Returns'}
+              Form 10BD Public Returns
             </a>
             <span aria-hidden="true">·</span>
             <a href="#transparency" className="hover:text-stone-300 transition-colors">
-              {language === 'hi' ? 'वैधानिक सीए ऑडिट' : 'Statutory CA Audit'}
+              Statutory CA Audit
             </a>
             <span aria-hidden="true">·</span>
             <span className="text-stone-400 flex items-center gap-1">

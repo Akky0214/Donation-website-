@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { DonorWallEntry } from '../types/donation';
 import { Heart, MessageSquareHeart } from 'lucide-react';
-import { useLanguage } from '../context/LanguageContext';
 
 interface DonorWallSectionProps {
   entries: DonorWallEntry[];
@@ -13,7 +12,6 @@ export const DonorWallSection: React.FC<DonorWallSectionProps> = ({
   entries,
   onDonateWithTribute
 }) => {
-  const { t, language } = useLanguage();
   const [filter, setFilter] = useState<'all' | 'tributes' | 'monthly'>('all');
 
   const filteredEntries = entries.filter((e) => {
@@ -36,13 +34,13 @@ export const DonorWallSection: React.FC<DonorWallSectionProps> = ({
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <div>
             <div className="text-xs font-mono tracking-widest uppercase text-stone-500 mb-2">
-              {t('donor_wall.kicker')}
+              Collective Seva & Solidarity
             </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-medium text-stone-900 tracking-tight">
-              {t('donor_wall.title')}
+              Live Donor Wall & Memorial Tributes
             </h2>
             <p className="mt-2 text-sm text-stone-600 max-w-xl">
-              {t('donor_wall.subtitle')}
+              Every contribution carries a personal blessing. View recent verified offerings and dedications across the nation.
             </p>
           </div>
 
@@ -55,7 +53,7 @@ export const DonorWallSection: React.FC<DonorWallSectionProps> = ({
               className="px-4 py-2.5 bg-stone-900 hover:bg-stone-800 text-white text-xs font-medium rounded-lg inline-flex items-center gap-2 transition-colors cursor-pointer shadow-xs"
             >
               <Heart className="w-3.5 h-3.5 text-rose-400 fill-rose-400/30" />
-              <span>{t('donor_wall.btn_tribute')}</span>
+              <span>Make a Dedication Seva</span>
             </motion.button>
           </div>
         </div>
@@ -71,7 +69,7 @@ export const DonorWallSection: React.FC<DonorWallSectionProps> = ({
                 : 'bg-white text-stone-600 border border-stone-200 hover:bg-stone-100'
             }`}
           >
-            {t('donor_wall.filter_all')} ({entries.length})
+            All Offerings ({entries.length})
           </button>
           <button
             type="button"
@@ -82,7 +80,7 @@ export const DonorWallSection: React.FC<DonorWallSectionProps> = ({
                 : 'bg-white text-stone-600 border border-stone-200 hover:bg-stone-100'
             }`}
           >
-            {t('donor_wall.filter_tributes')}
+            Memorials & Dedications
           </button>
           <button
             type="button"
@@ -93,7 +91,7 @@ export const DonorWallSection: React.FC<DonorWallSectionProps> = ({
                 : 'bg-white text-stone-600 border border-stone-200 hover:bg-stone-100'
             }`}
           >
-            {t('donor_wall.filter_monthly')}
+            Monthly Sankalpa
           </button>
         </div>
 
@@ -126,7 +124,7 @@ export const DonorWallSection: React.FC<DonorWallSectionProps> = ({
                     </span>
                     {entry.frequency === 'monthly' && (
                       <span className="text-[11px] block text-stone-500 font-sans">
-                        {language === 'hi' ? '/ माह' : '/ month'}
+                        / month
                       </span>
                     )}
                   </div>
@@ -138,13 +136,7 @@ export const DonorWallSection: React.FC<DonorWallSectionProps> = ({
                     <MessageSquareHeart className="w-3.5 h-3.5 text-amber-700 shrink-0 mt-0.5" />
                     <div>
                       <span className="font-semibold">
-                        {language === 'hi'
-                          ? entry.tributeType === 'in_memory'
-                            ? 'की स्मृति में: '
-                            : 'के सम्मान में: '
-                          : entry.tributeType === 'in_memory'
-                          ? 'In memory of '
-                          : 'In honor of '}
+                        {entry.tributeType === 'in_memory' ? 'In memory of ' : 'In honor of '}
                       </span>
                       <span>{entry.tributeName}</span>
                     </div>
@@ -161,8 +153,7 @@ export const DonorWallSection: React.FC<DonorWallSectionProps> = ({
 
               {/* Bottom: Campaign Target */}
               <div className="mt-5 pt-3 border-t border-stone-100 text-[11px] font-mono text-stone-500 truncate">
-                {language === 'hi' ? 'समर्पित अभियान: ' : 'Directed to: '}{' '}
-                <span className="text-stone-700 font-medium">{entry.campaignTitle}</span>
+                Directed to: <span className="text-stone-700 font-medium">{entry.campaignTitle}</span>
               </div>
             </motion.div>
           ))}

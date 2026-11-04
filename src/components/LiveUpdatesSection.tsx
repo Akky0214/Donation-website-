@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'motion/react';
 import { Campaign, CauseCategory } from '../types/donation';
-import { useLanguage } from '../context/LanguageContext';
 import {
   Activity,
   CheckCircle2,
@@ -68,7 +67,6 @@ export const LiveUpdatesSection: React.FC<LiveUpdatesSectionProps> = ({
   onDonateToCampaign,
   onOpenFieldReport
 }) => {
-  const { language, t } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState<CauseCategory>('all');
   const [statusFilter, setStatusFilter] = useState<'all' | 'completed' | 'active'>('all');
   const [isAutoScrolling, setIsAutoScrolling] = useState(true);
@@ -179,17 +177,17 @@ export const LiveUpdatesSection: React.FC<LiveUpdatesSectionProps> = ({
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
               </span>
               <span className="text-xs font-mono font-semibold uppercase tracking-wider text-emerald-400">
-                {t('live.kicker')}
+                Live Frontline Operations Feed
               </span>
               <span className="text-[11px] font-mono text-stone-400 border border-stone-700 rounded px-1.5 py-0.2">
                 Telemetric Logs
               </span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-serif font-bold text-white tracking-tight">
-              {t('live.title')}
+              Humanitarian Project Milestones
             </h2>
             <p className="mt-2 text-sm text-stone-400 max-w-2xl leading-relaxed">
-              {t('live.subtitle')}
+              Continuous, timestamped field telemetry drawn directly from active campaigns across India. Track borewell drilling, trauma ambulance dispatches, and mangrove plantations as they happen.
             </p>
           </div>
 
@@ -204,12 +202,12 @@ export const LiveUpdatesSection: React.FC<LiveUpdatesSectionProps> = ({
               {isAutoScrolling ? (
                 <>
                   <Pause className="w-3.5 h-3.5 text-amber-400" />
-                  <span>{t('live.pause')}</span>
+                  <span>Pause Stream</span>
                 </>
               ) : (
                 <>
                   <Play className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>{t('live.resume')}</span>
+                  <span>Resume Stream</span>
                 </>
               )}
             </button>

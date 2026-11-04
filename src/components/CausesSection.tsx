@@ -3,7 +3,6 @@ import { motion } from 'motion/react';
 import { Campaign, CauseCategory } from '../types/donation';
 import { CauseCard } from './CauseCard';
 import { Search } from 'lucide-react';
-import { useLanguage } from '../context/LanguageContext';
 
 interface CausesSectionProps {
   campaigns: Campaign[];
@@ -11,13 +10,13 @@ interface CausesSectionProps {
   onOpenFieldReport: (campaign: Campaign) => void;
 }
 
-const CATEGORIES: { id: CauseCategory; labelKey: string }[] = [
-  { id: 'all', labelKey: 'causes.cat.all' },
-  { id: 'water', labelKey: 'causes.cat.water' },
-  { id: 'medical', labelKey: 'causes.cat.medical' },
-  { id: 'crisis', labelKey: 'causes.cat.crisis' },
-  { id: 'ecology', labelKey: 'causes.cat.ecology' },
-  { id: 'education', labelKey: 'causes.cat.education' }
+const CATEGORIES: { id: CauseCategory; label: string }[] = [
+  { id: 'all', label: 'All Initiatives' },
+  { id: 'water', label: 'Clean Water' },
+  { id: 'medical', label: 'Medical Care' },
+  { id: 'crisis', label: 'Crisis Relief' },
+  { id: 'ecology', label: 'Ecology' },
+  { id: 'education', label: 'Education' }
 ];
 
 export const CausesSection: React.FC<CausesSectionProps> = ({
@@ -25,7 +24,6 @@ export const CausesSection: React.FC<CausesSectionProps> = ({
   onDonateToCampaign,
   onOpenFieldReport
 }) => {
-  const { language, t } = useLanguage();
   const [selectedCategory, setSelectedCategory] = useState<CauseCategory>('all');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -52,20 +50,20 @@ export const CausesSection: React.FC<CausesSectionProps> = ({
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <div>
             <div className="text-xs font-mono tracking-widest uppercase text-stone-500 mb-2">
-              {t('causes.kicker')}
+              Audited Field Initiatives
             </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-medium text-stone-900 tracking-tight">
-              {t('causes.title')}
+              Direct-action campaigns currently seeking capital
             </h2>
           </div>
           <p className="text-sm text-stone-600 max-w-md">
-            {t('causes.subtitle')}
+            Every initiative has an established frontline partner, verifiable GPS milestones, and a zero-loss allocation protocol.
           </p>
         </div>
 
         {/* Filter Bar & Search */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 mb-10 pb-5 border-b border-stone-200">
-          {/* Category Tabs: Segmented Control */}
+          {/* Category Tabs: Segmented Control (allowed by skill for interactive filters) */}
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
             {CATEGORIES.map((cat) => {
               const active = selectedCategory === cat.id;
@@ -79,7 +77,7 @@ export const CausesSection: React.FC<CausesSectionProps> = ({
                       : 'bg-stone-100 text-stone-600 hover:text-stone-900 hover:bg-stone-200'
                   }`}
                 >
-                  {t(cat.labelKey)}
+                  {cat.label}
                 </button>
               );
             })}
@@ -90,7 +88,7 @@ export const CausesSection: React.FC<CausesSectionProps> = ({
             <Search className="w-4 h-4 text-stone-400 absolute left-3 top-2.5" />
             <input
               type="text"
-              placeholder={t('causes.search')}
+              placeholder="Search initiatives or locations..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full text-xs pl-9 pr-3 py-2 bg-white rounded-md border border-stone-200 focus:outline-hidden focus:border-stone-400 text-stone-900 placeholder:text-stone-400"
@@ -101,9 +99,7 @@ export const CausesSection: React.FC<CausesSectionProps> = ({
         {/* Campaign Cards Grid */}
         {filteredCampaigns.length === 0 ? (
           <div className="text-center py-16 bg-white rounded-xl border border-stone-200">
-            <p className="text-stone-600 text-sm">
-              {language === 'hi' ? 'आपके खोज मानदंडों से कोई अभियान मेल नहीं खाता।' : 'No campaigns match your selected criteria.'}
-            </p>
+            <p className="text-stone-600 text-sm">No campaigns match your selected criteria.</p>
             <button
               onClick={() => {
                 setSelectedCategory('all');
@@ -111,7 +107,7 @@ export const CausesSection: React.FC<CausesSectionProps> = ({
               }}
               className="mt-3 text-xs font-semibold text-stone-900 underline cursor-pointer"
             >
-              {language === 'hi' ? 'फ़िल्टर रीसेट करें' : 'Reset filters'}
+              Reset filters
             </button>
           </div>
         ) : (

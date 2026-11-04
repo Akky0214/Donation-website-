@@ -3,7 +3,6 @@ import { motion } from 'motion/react';
 import { Campaign } from '../types/donation';
 import { CauseArtwork } from './CauseArtwork';
 import { Heart, FileText, MapPin, Users, Clock } from 'lucide-react';
-import { useLanguage } from '../context/LanguageContext';
 
 interface CauseCardProps {
   campaign: Campaign;
@@ -16,7 +15,6 @@ export const CauseCard: React.FC<CauseCardProps> = ({
   onDonate,
   onOpenFieldReport
 }) => {
-  const { language, t } = useLanguage();
   const percentRaised = Math.min(100, Math.round((campaign.raisedAmount / campaign.targetAmount) * 100));
 
   return (
@@ -43,14 +41,14 @@ export const CauseCard: React.FC<CauseCardProps> = ({
               transition={{ repeat: Infinity, duration: 2.5 }}
               className="absolute top-3 right-3 bg-amber-500 text-stone-950 text-xs font-mono font-bold px-2.5 py-1 rounded-sm shadow-xs"
             >
-              {campaign.emergencyMultiplier}X {language === 'hi' ? 'मैच सक्रिय' : 'MATCH ACTIVE'}
+              {campaign.emergencyMultiplier}X MATCH ACTIVE
             </motion.div>
           )}
         </div>
 
         {/* Content Area */}
         <div className="p-6">
-          {/* Metadata Header */}
+          {/* Unboxed Metadata Header (NO PILL BOXES) */}
           <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-stone-500 mb-2.5">
             <span className="font-semibold text-stone-700">{campaign.categoryLabel}</span>
             <span aria-hidden="true">·</span>
@@ -60,26 +58,27 @@ export const CauseCard: React.FC<CauseCardProps> = ({
             </span>
           </div>
 
-          {/* Campaign Title & Subtitle */}
-          <h3 className="text-lg font-serif font-bold text-stone-900 group-hover:text-stone-700 transition-colors leading-snug mb-2">
+          <h3 className="text-xl font-serif font-semibold text-stone-900 leading-snug group-hover:text-stone-700 transition-colors">
             {campaign.title}
           </h3>
-          <p className="text-xs text-stone-600 line-clamp-2 leading-relaxed mb-6">
+
+          <p className="mt-2.5 text-sm text-stone-600 line-clamp-2 leading-relaxed">
             {campaign.subtitle}
           </p>
 
-          {/* Progress Section */}
-          <div className="space-y-2">
-            <div className="flex items-baseline justify-between text-xs font-mono">
-              <span className="font-bold text-stone-900 text-sm">
+          {/* Funding Progress Bar & Tabular Numerals in Indian Rupees */}
+          <div className="mt-5 pt-4 border-t border-stone-100">
+            <div className="flex items-baseline justify-between text-xs mb-1.5">
+              <div className="font-semibold text-stone-900 text-sm tabular-nums">
                 ₹{campaign.raisedAmount.toLocaleString('en-IN')}
-              </span>
-              <span className="text-stone-500">
-                {language === 'hi' ? 'लक्ष्य' : 'target'} ₹{campaign.targetAmount.toLocaleString('en-IN')} ({percentRaised}%)
+                <span className="text-xs text-stone-500 font-normal"> raised of ₹{campaign.targetAmount.toLocaleString('en-IN')}</span>
+              </div>
+              <span className="font-mono font-semibold text-stone-700 tabular-nums">
+                {percentRaised}%
               </span>
             </div>
 
-            {/* Hairline progress track */}
+            {/* Hairline progress track with smooth width motion */}
             <div className="w-full h-2 bg-stone-100 rounded-full overflow-hidden">
               <motion.div
                 initial={{ width: 0 }}
@@ -94,13 +93,11 @@ export const CauseCard: React.FC<CauseCardProps> = ({
             <div className="mt-3 flex items-center justify-between text-xs text-stone-500 font-mono">
               <span className="inline-flex items-center gap-1">
                 <Users className="w-3.5 h-3.5 text-stone-400" />
-                <span className="tabular-nums font-semibold text-stone-700">{campaign.donorCount.toLocaleString('en-IN')}</span>{' '}
-                {language === 'hi' ? 'दाता' : 'donors'}
+                <span className="tabular-nums font-semibold text-stone-700">{campaign.donorCount.toLocaleString('en-IN')}</span> donors
               </span>
               <span className="inline-flex items-center gap-1">
                 <Clock className="w-3.5 h-3.5 text-stone-400" />
-                <span className="tabular-nums font-semibold text-stone-700">{campaign.daysLeft}</span>{' '}
-                {language === 'hi' ? 'दिन शेष' : 'days left'}
+                <span className="tabular-nums font-semibold text-stone-700">{campaign.daysLeft}</span> days left
               </span>
             </div>
           </div>
@@ -117,7 +114,7 @@ export const CauseCard: React.FC<CauseCardProps> = ({
           className="flex-1 py-2.5 px-3 bg-stone-900 hover:bg-stone-800 text-white text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
         >
           <Heart className="w-3.5 h-3.5 text-rose-400 fill-rose-400/40" />
-          <span>{t('causes.card.donate')}</span>
+          <span>Donate in ₹</span>
         </motion.button>
 
         <button
@@ -127,7 +124,7 @@ export const CauseCard: React.FC<CauseCardProps> = ({
           title="Inspect Field Log & Milestones"
         >
           <FileText className="w-3.5 h-3.5 text-stone-500" />
-          <span className="hidden sm:inline">{t('causes.card.report')}</span>
+          <span className="hidden sm:inline">Field Log</span>
         </button>
       </div>
     </motion.article>

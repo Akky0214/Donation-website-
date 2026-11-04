@@ -2,14 +2,12 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { DonationFrequency } from '../types/donation';
 import { Droplet, Activity, Trees, Package, BookOpen, ArrowRight } from 'lucide-react';
-import { useLanguage } from '../context/LanguageContext';
 
 interface ImpactCalculatorProps {
   onDonateFromCalculator: (amount: number, frequency: DonationFrequency) => void;
 }
 
 export const ImpactCalculator: React.FC<ImpactCalculatorProps> = ({ onDonateFromCalculator }) => {
-  const { language, t } = useLanguage();
   const [sliderAmount, setSliderAmount] = useState<number>(2500);
   const [frequency, setFrequency] = useState<DonationFrequency>('monthly');
 
@@ -34,13 +32,13 @@ export const ImpactCalculator: React.FC<ImpactCalculatorProps> = ({ onDonateFrom
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center mb-12">
           <div className="text-xs font-mono tracking-widest uppercase text-stone-500 mb-2">
-            {t('impact.kicker')}
+            Resource Translation Matrix
           </div>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-medium text-stone-900 tracking-tight">
-            {t('impact.title')}
+            Calculate your tangible field yield in Rupees
           </h2>
           <p className="mt-3 text-sm sm:text-base text-stone-600">
-            {t('impact.subtitle')}
+            See exactly how your tax-deductible Rupees translate into audited physical outputs over 12 months.
           </p>
         </div>
 
@@ -64,7 +62,7 @@ export const ImpactCalculator: React.FC<ImpactCalculatorProps> = ({ onDonateFrom
                     : 'text-stone-600 hover:text-stone-900'
                 }`}
               >
-                {t('impact.monthly')}
+                Monthly Sankalpa
               </button>
               <button
                 type="button"
@@ -75,154 +73,137 @@ export const ImpactCalculator: React.FC<ImpactCalculatorProps> = ({ onDonateFrom
                     : 'text-stone-600 hover:text-stone-900'
                 }`}
               >
-                {t('impact.once')}
+                One-Time Seva
               </button>
             </div>
 
-            {/* Current Amount Display */}
-            <div className="text-right w-full sm:w-auto flex sm:flex-col justify-between sm:justify-start items-center sm:items-end">
-              <span className="text-xs text-stone-500 font-mono uppercase tracking-wider">
-                {t('impact.your_gift')}
-              </span>
-              <div className="text-3xl font-serif font-bold text-stone-900 tabular-nums">
+            {/* Current Amount Display in Rupees */}
+            <div className="text-center sm:text-right">
+              <span className="text-xs text-stone-500 uppercase tracking-wider block">Contribution Level</span>
+              <div className="text-3xl sm:text-4xl font-serif font-bold text-stone-900 tabular-nums">
                 ₹{sliderAmount.toLocaleString('en-IN')}
-                <span className="text-sm font-sans font-normal text-stone-500 ml-1">
-                  {frequency === 'monthly' ? (language === 'hi' ? '/ माह' : '/ month') : ''}
+                <span className="text-sm font-sans font-normal text-stone-500">
+                  {frequency === 'monthly' ? ' / month' : ' one-time'}
                 </span>
               </div>
+              {frequency === 'monthly' && (
+                <span className="text-xs font-mono text-stone-500">
+                  (₹{effectiveAnnualAmount.toLocaleString('en-IN')} deployed annually)
+                </span>
+              )}
             </div>
           </div>
 
-          {/* Interactive Range Slider */}
-          <div className="py-8 border-b border-stone-100">
+          {/* Slider */}
+          <div className="py-8">
+            <div className="flex justify-between text-xs text-stone-500 font-mono mb-2">
+              <span>₹500</span>
+              <span>₹2,500</span>
+              <span>₹10,000</span>
+              <span>₹25,000</span>
+              <span>₹50,000</span>
+            </div>
             <input
               type="range"
               min="500"
-              max="25000"
-              step="500"
+              max="50000"
+              step="250"
               value={sliderAmount}
               onChange={(e) => setSliderAmount(Number(e.target.value))}
-              className="w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-stone-900"
+              className="w-full h-2.5 bg-stone-200 rounded-lg appearance-none cursor-pointer accent-stone-900 focus:outline-hidden"
             />
-            <div className="flex justify-between text-xs font-mono text-stone-400 mt-2">
-              <span>₹500</span>
-              <span>₹5,000</span>
-              <span>₹10,000</span>
-              <span>₹15,000</span>
-              <span>₹25,000</span>
-            </div>
-            <p className="text-center text-xs text-stone-500 mt-3 font-mono">
-              {t('impact.slider_help')}
-            </p>
           </div>
 
-          {/* Tangible Yield Outputs Grid */}
-          <div className="pt-8">
-            <h4 className="text-xs font-mono uppercase tracking-wider text-stone-400 mb-6 text-center">
-              {t('impact.annual_basis')}
-            </h4>
+          {/* Tangible Metrics Matrix with Motion */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-4 pb-8">
+            <motion.div whileHover={{ y: -2 }} className="p-4 rounded-lg bg-stone-50 border border-stone-200/70">
+              <div className="flex items-center gap-2 text-sky-700 mb-2">
+                <Droplet className="w-4 h-4" />
+                <span className="text-xs font-mono uppercase tracking-wider">Potable Sweet Water</span>
+              </div>
+              <div className="text-2xl font-serif font-bold text-stone-900 tabular-nums">
+                {waterLitres.toLocaleString('en-IN')} L
+              </div>
+              <p className="text-xs text-stone-500 mt-1">
+                Solar aquifer purification delivering clean drinking water to village households.
+              </p>
+            </motion.div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              <motion.div whileHover={{ y: -2 }} className="p-4 rounded-lg bg-stone-50 border border-stone-200/70">
-                <div className="flex items-center gap-2 text-sky-700 mb-2">
-                  <Droplet className="w-4 h-4" />
-                  <span className="text-xs font-mono uppercase tracking-wider">
-                    {language === 'hi' ? 'शुद्ध पेयजल' : 'Potable Sweet Water'}
-                  </span>
+            <motion.div whileHover={{ y: -2 }} className="p-4 rounded-lg bg-stone-50 border border-stone-200/70">
+              <div className="flex items-center gap-2 text-rose-700 mb-2">
+                <Activity className="w-4 h-4" />
+                <span className="text-xs font-mono uppercase tracking-wider">Pediatric Neonatal Care</span>
+              </div>
+              <div className="text-2xl font-serif font-bold text-stone-900 tabular-nums">
+                {antibioticCourses.toLocaleString('en-IN')} Treatments
+              </div>
+              <p className="text-xs text-stone-500 mt-1">
+                Sterile antibiotic treatments & infant resuscitations in tribal mobile ICUs.
+              </p>
+            </motion.div>
+
+            <motion.div whileHover={{ y: -2 }} className="p-4 rounded-lg bg-stone-50 border border-stone-200/70">
+              <div className="flex items-center gap-2 text-emerald-800 mb-2">
+                <Trees className="w-4 h-4" />
+                <span className="text-xs font-mono uppercase tracking-wider">Western Ghats Canopy</span>
+              </div>
+              <div className="text-2xl font-serif font-bold text-stone-900 tabular-nums">
+                {forestAcres} Acres
+              </div>
+              <p className="text-xs text-stone-500 mt-1">
+                Perpetual conservation corridor under indigenous tribal wardens.
+              </p>
+            </motion.div>
+
+            <motion.div whileHover={{ y: -2 }} className="p-4 rounded-lg bg-stone-50 border border-stone-200/70">
+              <div className="flex items-center gap-2 text-amber-700 mb-2">
+                <Package className="w-4 h-4" />
+                <span className="text-xs font-mono uppercase tracking-wider">Disaster Dry Rations</span>
+              </div>
+              <div className="text-2xl font-serif font-bold text-stone-900 tabular-nums">
+                {emergencyMeals.toLocaleString('en-IN')} Meals
+              </div>
+              <p className="text-xs text-stone-500 mt-1">
+                Fortified survival emergency meal kits distributed during flood emergencies.
+              </p>
+            </motion.div>
+
+            <motion.div whileHover={{ y: -2 }} className="p-4 rounded-lg bg-stone-50 border border-stone-200/70">
+              <div className="flex items-center gap-2 text-purple-700 mb-2">
+                <BookOpen className="w-4 h-4" />
+                <span className="text-xs font-mono uppercase tracking-wider">Girls STEM Kits</span>
+              </div>
+              <div className="text-2xl font-serif font-bold text-stone-900 tabular-nums">
+                {labKits.toLocaleString('en-IN')} Kits
+              </div>
+              <p className="text-xs text-stone-500 mt-1">
+                Robotics microcontrollers and NCERT digital tablet labs in rural schools.
+              </p>
+            </motion.div>
+
+            <motion.div whileHover={{ y: -2 }} className="p-4 rounded-lg bg-stone-900 text-stone-100 flex flex-col justify-between">
+              <div>
+                <span className="text-xs font-mono uppercase tracking-wider text-amber-300">
+                  Section 80G Tax Benefit
+                </span>
+                <div className="text-2xl font-serif font-bold text-white tabular-nums mt-1">
+                  ₹{effectiveAnnualAmount.toLocaleString('en-IN')}
                 </div>
-                <div className="text-2xl font-serif font-bold text-stone-900 tabular-nums">
-                  {waterLitres.toLocaleString('en-IN')} L
-                </div>
-                <p className="text-xs text-stone-500 mt-1">
-                  {language === 'hi' ? 'ग्रामीण परिवारों के लिए सौर जल शोधन संयंत्रों द्वारा आपूर्ति।' : 'Solar aquifer purification delivering clean drinking water to village households.'}
+                <p className="text-xs text-stone-300 mt-1">
+                  50% tax deduction under Section 80G with automatic Form 10BE certificate.
                 </p>
-              </motion.div>
-
-              <motion.div whileHover={{ y: -2 }} className="p-4 rounded-lg bg-stone-50 border border-stone-200/70">
-                <div className="flex items-center gap-2 text-rose-700 mb-2">
-                  <Activity className="w-4 h-4" />
-                  <span className="text-xs font-mono uppercase tracking-wider">
-                    {language === 'hi' ? 'शिशु आईसीयू देखभाल' : 'Pediatric Neonatal Care'}
-                  </span>
-                </div>
-                <div className="text-2xl font-serif font-bold text-stone-900 tabular-nums">
-                  {antibioticCourses.toLocaleString('en-IN')} {language === 'hi' ? 'उपचार' : 'Treatments'}
-                </div>
-                <p className="text-xs text-stone-500 mt-1">
-                  {language === 'hi' ? 'जनजातीय मोबाइल आईसीयू में स्टेराइल एंटीबायोटिक व शिशु जीवन रक्षा।' : 'Sterile antibiotic treatments & infant resuscitations in tribal mobile ICUs.'}
-                </p>
-              </motion.div>
-
-              <motion.div whileHover={{ y: -2 }} className="p-4 rounded-lg bg-stone-50 border border-stone-200/70">
-                <div className="flex items-center gap-2 text-emerald-800 mb-2">
-                  <Trees className="w-4 h-4" />
-                  <span className="text-xs font-mono uppercase tracking-wider">
-                    {language === 'hi' ? 'पश्चिमी घाट वन क्षेत्र' : 'Western Ghats Canopy'}
-                  </span>
-                </div>
-                <div className="text-2xl font-serif font-bold text-stone-900 tabular-nums">
-                  {forestAcres} {language === 'hi' ? 'एकड़' : 'Acres'}
-                </div>
-                <p className="text-xs text-stone-500 mt-1">
-                  {language === 'hi' ? 'आदिवासी टोडा व कुरुम्बा संरक्षकों के अधीन शोला वन गलियारा।' : 'Perpetual conservation corridor under indigenous tribal wardens.'}
-                </p>
-              </motion.div>
-
-              <motion.div whileHover={{ y: -2 }} className="p-4 rounded-lg bg-stone-50 border border-stone-200/70">
-                <div className="flex items-center gap-2 text-amber-700 mb-2">
-                  <Package className="w-4 h-4" />
-                  <span className="text-xs font-mono uppercase tracking-wider">
-                    {language === 'hi' ? 'आपदा सूखा राशन' : 'Disaster Dry Rations'}
-                  </span>
-                </div>
-                <div className="text-2xl font-serif font-bold text-stone-900 tabular-nums">
-                  {emergencyMeals.toLocaleString('en-IN')} {language === 'hi' ? 'भोजन किट' : 'Meals'}
-                </div>
-                <p className="text-xs text-stone-500 mt-1">
-                  {language === 'hi' ? 'बाढ़ विस्थापितों हेतु पौष्टिक सूखा राशन और जीवन रक्षक गोलियां।' : 'Fortified survival emergency meal kits distributed during flood emergencies.'}
-                </p>
-              </motion.div>
-
-              <motion.div whileHover={{ y: -2 }} className="p-4 rounded-lg bg-stone-50 border border-stone-200/70">
-                <div className="flex items-center gap-2 text-purple-700 mb-2">
-                  <BookOpen className="w-4 h-4" />
-                  <span className="text-xs font-mono uppercase tracking-wider">
-                    {language === 'hi' ? 'बालिका स्टेम प्रयोगशाला' : 'Girls STEM Kits'}
-                  </span>
-                </div>
-                <div className="text-2xl font-serif font-bold text-stone-900 tabular-nums">
-                  {labKits.toLocaleString('en-IN')} {language === 'hi' ? 'किट' : 'Kits'}
-                </div>
-                <p className="text-xs text-stone-500 mt-1">
-                  {language === 'hi' ? 'ग्रामीण स्कूलों में रोबोटिक्स और एनसीईआरटी द्विभाषी डिजिटल टैबलेट।' : 'Robotics microcontrollers and NCERT digital tablet labs in rural schools.'}
-                </p>
-              </motion.div>
-
-              {/* Direct Commitment CTA Box */}
-              <motion.div
-                whileHover={{ y: -2 }}
-                className="p-4 rounded-lg bg-stone-900 text-white flex flex-col justify-between"
+              </div>
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                type="button"
+                onClick={() => onDonateFromCalculator(sliderAmount, frequency)}
+                className="mt-4 w-full py-2.5 px-3 bg-amber-400 hover:bg-amber-300 text-stone-950 font-semibold text-xs rounded-md flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
               >
-                <div>
-                  <div className="text-xs font-mono text-amber-400 uppercase tracking-wider">
-                    {language === 'hi' ? 'धारा 80G कर छूट' : 'Tax Deduction (80G)'}
-                  </div>
-                  <div className="text-xs text-stone-300 mt-1">
-                    {language === 'hi' ? '50% कर कटौती व तुरंत फॉर्म 10BE प्रमाण पत्र।' : '50% tax deduction eligibility with immediate Form 10BE generation.'}
-                  </div>
-                </div>
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  type="button"
-                  onClick={() => onDonateFromCalculator(sliderAmount, frequency)}
-                  className="mt-4 w-full py-2 px-3 bg-white hover:bg-stone-100 text-stone-900 font-semibold text-xs rounded-md transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-xs"
-                >
-                  <span>{t('impact.commit_btn')}</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </motion.button>
-              </motion.div>
-            </div>
+                <span>Commit This Impact</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </motion.button>
+            </motion.div>
           </div>
         </motion.div>
       </div>

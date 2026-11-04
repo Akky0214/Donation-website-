@@ -21,7 +21,6 @@ import {
   Copy,
   Check
 } from 'lucide-react';
-import { useLanguage } from '../context/LanguageContext';
 
 export interface ProjectLocation {
   id: string;
@@ -286,7 +285,6 @@ export const ProjectLocationsMap: React.FC<ProjectLocationsMapProps> = ({
   onOpenDonate,
   onOpenFieldReport
 }) => {
-  const { language, t } = useLanguage();
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const activeTileLayersRef = useRef<L.Layer[]>([]);
@@ -636,11 +634,11 @@ export const ProjectLocationsMap: React.FC<ProjectLocationsMapProps> = ({
             <span className="text-emerald-700 font-semibold">9 Active Frontline Sites</span>
           </div>
           <h3 className="text-xl sm:text-2xl font-serif font-semibold text-stone-900 flex items-center gap-2">
-            <span>{t('map.header')}</span>
+            <span>High-Clarity Street & Project Map</span>
             <Globe className="w-4 h-4 text-stone-500 hidden sm:inline" />
           </h3>
           <p className="text-xs sm:text-sm text-stone-600 mt-1 max-w-2xl leading-relaxed">
-            {t('map.sub')}
+            Trace every allocated Rupee to exact street addresses, highway coordinates, village water plants, mobile ICU routes, and river triage barges.
           </p>
         </div>
 
@@ -659,7 +657,7 @@ export const ProjectLocationsMap: React.FC<ProjectLocationsMapProps> = ({
               title="Clear high-definition street, highway, and landmark map"
             >
               <Layers className="w-3 h-3" />
-              <span>{t('map.layer.streets')}</span>
+              <span>Clear Streets</span>
             </button>
             <button
               type="button"
@@ -671,7 +669,7 @@ export const ProjectLocationsMap: React.FC<ProjectLocationsMapProps> = ({
               }`}
               title="OpenStreetMap detailed road network and village paths"
             >
-              {t('map.layer.osm')}
+              OSM Roads
             </button>
             <button
               type="button"
@@ -683,7 +681,7 @@ export const ProjectLocationsMap: React.FC<ProjectLocationsMapProps> = ({
               }`}
               title="Satellite imagery with street grid overlay"
             >
-              {t('map.layer.satellite')}
+              Satellite + Roads
             </button>
           </div>
 
@@ -700,7 +698,7 @@ export const ProjectLocationsMap: React.FC<ProjectLocationsMapProps> = ({
               title="Zoom directly into street level to see roads and building perimeters"
             >
               <ZoomIn className="w-3 h-3" />
-              <span>{t('map.zoom.street')}</span>
+              <span>Street (14x)</span>
             </button>
             <button
               type="button"
@@ -712,7 +710,7 @@ export const ProjectLocationsMap: React.FC<ProjectLocationsMapProps> = ({
               }`}
               title="District/Tehsil view"
             >
-              {t('map.zoom.district')}
+              District (10x)
             </button>
             <button
               type="button"
@@ -725,7 +723,7 @@ export const ProjectLocationsMap: React.FC<ProjectLocationsMapProps> = ({
               title="All-India View"
             >
               <Maximize2 className="w-3 h-3" />
-              <span>{t('map.zoom.india')}</span>
+              <span>India (5x)</span>
             </button>
           </div>
         </div>
@@ -873,7 +871,7 @@ export const ProjectLocationsMap: React.FC<ProjectLocationsMapProps> = ({
                   title="Zoom into street and road level for this site"
                 >
                   <ZoomIn className="w-3.5 h-3.5" />
-                  <span>{t('map.zoom_to_site')}</span>
+                  <span>Zoom Street View (15x)</span>
                 </button>
 
                 <a
@@ -884,7 +882,7 @@ export const ProjectLocationsMap: React.FC<ProjectLocationsMapProps> = ({
                   title="Open in Google Maps in new tab"
                 >
                   <ExternalLink className="w-3 h-3 text-stone-500" />
-                  <span>{t('map.google_maps')}</span>
+                  <span>Google Maps</span>
                 </a>
               </div>
 
@@ -896,7 +894,7 @@ export const ProjectLocationsMap: React.FC<ProjectLocationsMapProps> = ({
                     onClick={() => onOpenDonate(selectedLocation.campaignId)}
                     className="flex-1 py-2 px-3 bg-stone-900 hover:bg-stone-800 text-white text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-xs"
                   >
-                    <span>{t('map.support_site')}</span>
+                    <span>Support This Site</span>
                     <ChevronRight className="w-3.5 h-3.5" />
                   </button>
                 )}

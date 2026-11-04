@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ShieldCheck, Heart, Sparkles, ArrowRight, CheckCircle2, Lock } from 'lucide-react';
 import { CauseArtwork } from './CauseArtwork';
 import { DonationFrequency } from '../types/donation';
-import { useLanguage } from '../context/LanguageContext';
 
 interface HeroSectionProps {
   onStartDonation: (amount: number, frequency: DonationFrequency, campaignId?: string) => void;
@@ -11,25 +10,15 @@ interface HeroSectionProps {
 
 const PRESET_AMOUNTS = [500, 1000, 2500, 5000, 10000];
 
-const IMPACT_TRANSLATIONS: Record<string, Record<number, string>> = {
-  en: {
-    500: 'Supplies 1 month of sterile wound dressings & pediatric antibiotics for 6 rural infants',
-    1000: 'Delivers 2,500 litres of pure drinking water via solar deep-well reverse osmosis units',
-    2500: 'Funds emergency flood relief dry ration kits & solar emergency beacons for 2 displaced families',
-    5000: 'Equips a mobile all-terrain tribal ambulance with neonatal incubators & emergency oxygen tanks',
-    10000: 'Provides solar laboratory workstations, digital coding tablets, and science apparatus for 4 girls'
-  },
-  hi: {
-    500: '6 ग्रामीण शिशुओं के लिए 1 माह की स्टेराइल ड्रेसिंग व बाल एंटीबायोटिक्स दवाएं',
-    1000: 'सौर ऊर्जा संचालित गहरे आरओ कुओं के जरिए 2,500 लीटर शुद्ध पेयजल आपूर्ति',
-    2500: 'बाढ़ से विस्थापित 2 परिवारों को सूखा राशन किट व आपातकालीन सौर लाइट',
-    5000: 'दुर्गम जनजातीय क्षेत्र में नवजात इनक्यूबेटर और ऑक्सीजन युक्त मोबाइल एम्बुलेंस',
-    10000: '4 बालिकाओं के लिए सौर विज्ञान प्रयोगशाला, डिजिटल टैबलेट और रोबोटिक्स किट'
-  }
+const IMPACT_TRANSLATIONS: Record<number, string> = {
+  500: 'Supplies 1 month of sterile wound dressings & pediatric antibiotics for 6 rural infants',
+  1000: 'Delivers 2,500 litres of pure drinking water via solar deep-well reverse osmosis units',
+  2500: 'Funds emergency flood relief dry ration kits & solar emergency beacons for 2 displaced families',
+  5000: 'Equips a mobile all-terrain tribal ambulance with neonatal incubators & emergency oxygen tanks',
+  10000: 'Provides solar laboratory workstations, digital coding tablets, and science apparatus for 4 girls'
 };
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onStartDonation }) => {
-  const { language, t } = useLanguage();
   const [frequency, setFrequency] = useState<DonationFrequency>('once');
   const [selectedAmount, setSelectedAmount] = useState<number>(2500);
   const [customAmount, setCustomAmount] = useState<string>('');
@@ -38,15 +27,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onStartDonation }) => 
   const currentAmount = isCustom ? Number(customAmount) || 0 : selectedAmount;
 
   const getDynamicImpact = (amount: number): string => {
-    const langDict = IMPACT_TRANSLATIONS[language] || IMPACT_TRANSLATIONS.en;
-    if (langDict[amount]) return langDict[amount];
-    if (language === 'hi') {
-      if (amount <= 750) return 'ग्रामीण क्लीनिकों के लिए दवाइयां और जल शुद्धिकरण गोलियां।';
-      if (amount <= 2000) return 'सौर पंप रखरखाव और स्वच्छ भूजल बुनियादी ढांचा।';
-      if (amount <= 4000) return 'बाढ़ विस्थापित परिवारों के लिए आश्रय और भोजन सामग्री।';
-      if (amount <= 8000) return 'दूरदराज जंगलों में बाल आपातकालीन ट्रॉमा एम्बुलेंस संचालन।';
-      return 'सामुदायिक स्तर पर सौर जल संयंत्र और कन्या शिक्षा प्रयोगशालाएं।';
-    }
+    if (IMPACT_TRANSLATIONS[amount]) return IMPACT_TRANSLATIONS[amount];
     if (amount <= 750) return 'Provides sterile medical packs and emergency water purification tablets for village clinics.';
     if (amount <= 2000) return 'Supplies clean groundwater infrastructure and regular solar pump maintenance.';
     if (amount <= 4000) return 'Equips two displaced families with emergency shelter and thermal flood survival gear.';
@@ -90,14 +71,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onStartDonation }) => 
           transition={{ duration: 0.5 }}
           className="flex flex-wrap items-center gap-2 text-xs font-mono tracking-widest uppercase text-stone-500 mb-4"
         >
-          <span>{t('hero.kicker.trust')}</span>
+          <span>Registered Indian Charitable Trust</span>
           <span aria-hidden="true">·</span>
-          <span>{t('hero.kicker.80g')}</span>
+          <span>Section 80G Tax Exemption (Form 10BE)</span>
           <span aria-hidden="true">·</span>
-          <span>{t('hero.kicker.pan')}</span>
+          <span>Trust PAN: AAATK9412F</span>
           <span aria-hidden="true">·</span>
           <span className="text-emerald-700 font-semibold inline-flex items-center gap-1">
-            <Lock className="w-3 h-3" /> {t('hero.kicker.ssl')}
+            <Lock className="w-3 h-3" /> 256-Bit SSL Secured
           </span>
         </motion.div>
 
@@ -112,10 +93,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onStartDonation }) => 
           >
             <div>
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-medium text-stone-900 tracking-tight leading-[1.15] text-balance">
-                {t('hero.title')}
+                Direct, audited capital deployment for human relief and ecological preservation.
               </h1>
               <p className="mt-5 text-base sm:text-lg text-stone-600 leading-relaxed max-w-2xl">
-                {t('hero.subtitle')}
+                We connect conscientious donors directly to audited frontline rural initiatives.
+                Zero intermediary commissions. Cryptographic transaction logs. 88.6% of every
+                Rupee is directly converted into solar deep borewells, neonatal medical ICU ambulances, and crisis relief.
               </p>
             </div>
 
@@ -127,24 +110,23 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onStartDonation }) => 
             >
               <CauseArtwork
                 theme="water"
-                imageUrl="https://images.unsplash.com/photo-1541252260730-0412e8e2108e?auto=format&fit=crop&w=1200&q=80"
-                imageAlt="Rural Indian community water harvesting station in Rajasthan desert"
-                className="w-full h-full object-cover"
+                imageUrl="https://images.unsplash.com/photo-1541888946425-d0fbb1861593?auto=format&fit=crop&w=1400&q=85"
+                imageAlt="Clean potable drinking water pouring steadily from solar groundwater borehole well in Barmer, Rajasthan"
+                className="w-full h-full"
+                badgeText="FIELD AUDIT · BARMER, RAJASTHAN"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-transparent to-transparent flex items-end p-5">
-                <div className="text-white text-xs">
-                  <div className="font-mono text-amber-300 uppercase tracking-wider text-[11px] mb-0.5">
-                    {language === 'hi' ? 'सत्यापित फील्ड स्टेशन #04 · बाड़मेर, राजस्थान' : 'Verified Field Station #04 · Barmer, Rajasthan'}
-                  </div>
-                  <div className="font-serif text-sm font-semibold">
-                    {language === 'hi' ? 'थार रेगिस्तान सौर जल शुद्धिकरण परियोजना' : 'Thar Desert Deep-Well Reverse Osmosis Grid'}
-                  </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-stone-950/20 to-transparent flex items-end p-5">
+                <div className="text-white">
+                  <p className="text-xs font-mono uppercase tracking-wider text-amber-300">Live Field Deployment</p>
+                  <p className="text-sm font-medium mt-0.5 text-stone-100">
+                    Solar deep-aquifer borewells delivering 60,000L daily across drought-prone villages in Barmer.
+                  </p>
                 </div>
               </div>
             </motion.div>
           </motion.div>
 
-          {/* Right Column: Giving Engine Box */}
+          {/* Right Column: High-Intent Express Giving Box with Motion */}
           <motion.div
             initial={{ opacity: 0, x: 16 }}
             animate={{ opacity: 1, x: 0 }}
@@ -156,8 +138,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onStartDonation }) => 
                 {/* Header of giving box */}
                 <div className="flex items-center justify-between border-b border-stone-100 pb-4 mb-5">
                   <div>
-                    <h2 className="text-lg font-serif font-semibold text-stone-900">{t('hero.form.title')}</h2>
-                    <p className="text-xs text-stone-500 mt-0.5">{t('hero.form.subtitle')}</p>
+                    <h2 className="text-lg font-serif font-semibold text-stone-900">Make an Immediate Contribution</h2>
+                    <p className="text-xs text-stone-500 mt-0.5">Instant Section 80G Tax Exemption Certificate</p>
                   </div>
                   <motion.div
                     animate={{ scale: [1, 1.04, 1] }}
@@ -180,7 +162,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onStartDonation }) => 
                         : 'text-stone-600 hover:text-stone-900'
                     }`}
                   >
-                    {t('hero.freq.once')}
+                    One-Time Seva
                   </button>
                   <button
                     type="button"
@@ -192,14 +174,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onStartDonation }) => 
                     }`}
                   >
                     <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-                    <span>{t('hero.freq.monthly')}</span>
+                    <span>Monthly Sankalpa</span>
                   </button>
                 </div>
 
                 {/* Amount Presets in INR */}
                 <div className="mb-4">
                   <label className="block text-xs font-medium text-stone-700 uppercase tracking-wider mb-2.5">
-                    {language === 'hi' ? 'सेवा राशि चुनें (भारतीय रुपया ₹)' : 'Select Contribution Amount (INR ₹)'}
+                    Select Contribution Amount (INR ₹)
                   </label>
                   <div className="grid grid-cols-3 gap-2">
                     {PRESET_AMOUNTS.map((amt) => {
@@ -224,7 +206,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onStartDonation }) => 
                     <div className="relative">
                       <input
                         type="text"
-                        placeholder={t('hero.amount.custom')}
+                        placeholder="Custom ₹"
                         value={customAmount}
                         onChange={handleCustomChange}
                         onFocus={() => setIsCustom(true)}
@@ -244,7 +226,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onStartDonation }) => 
                 {/* Real-world Impact Translation Box */}
                 <AnimatePresence mode="wait">
                   <motion.div
-                    key={`${currentAmount}-${frequency}-${language}`}
+                    key={`${currentAmount}-${frequency}`}
                     initial={{ opacity: 0, y: 4 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -4 }}
@@ -255,8 +237,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onStartDonation }) => 
                       <CheckCircle2 className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
                       <p className="text-xs text-stone-800 leading-relaxed">
                         <strong className="font-semibold text-stone-900">
-                          ₹{currentAmount > 0 ? currentAmount.toLocaleString('en-IN') : 0}{' '}
-                          {frequency === 'monthly' ? (language === 'hi' ? '/ माह' : '/ month') : ''}:
+                          ₹{currentAmount > 0 ? currentAmount.toLocaleString('en-IN') : 0} {frequency === 'monthly' ? '/ month' : ''}:
                         </strong>{' '}
                         {getDynamicImpact(currentAmount)}
                       </p>
@@ -277,15 +258,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onStartDonation }) => 
                 >
                   <Heart className="w-4 h-4 text-rose-400 fill-rose-400/40" />
                   <span>
-                    {language === 'hi'
-                      ? `₹${currentAmount > 0 ? currentAmount.toLocaleString('en-IN') : 0} के साथ आगे बढ़ें (${frequency === 'monthly' ? 'मासिक' : 'एकमुश्त'})`
-                      : `Proceed with ₹${currentAmount > 0 ? currentAmount.toLocaleString('en-IN') : 0} ${frequency === 'monthly' ? 'Monthly Pledge' : 'Gift'}`}
+                    Proceed with ₹{currentAmount > 0 ? currentAmount.toLocaleString('en-IN') : 0}{' '}
+                    {frequency === 'monthly' ? 'Monthly Pledge' : 'Gift'}
                   </span>
                   <ArrowRight className="w-4 h-4 text-stone-400" />
                 </motion.button>
 
                 <div className="mt-3.5 flex items-center justify-center gap-4 text-xs text-stone-500">
-                  <span>{language === 'hi' ? 'तुरंत 80G रसीद' : 'Instant 80G Tax Receipt'}</span>
+                  <span>Instant 80G Tax Receipt</span>
                   <span aria-hidden="true">·</span>
                   <span>UPI / Cards / NetBanking</span>
                   <span aria-hidden="true">·</span>
@@ -305,27 +285,19 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onStartDonation }) => 
         >
           <div>
             <div className="text-2xl font-serif font-bold text-stone-900 tabular-nums">88.6%</div>
-            <div className="text-xs text-stone-500 uppercase tracking-wider mt-0.5">
-              {language === 'hi' ? 'प्रत्यक्ष ज़मीनी उपयोग' : 'Direct Field Deployment'}
-            </div>
+            <div className="text-xs text-stone-500 uppercase tracking-wider mt-0.5">Direct Field Deployment</div>
           </div>
           <div>
             <div className="text-2xl font-serif font-bold text-stone-900 tabular-nums">₹12.4 Cr</div>
-            <div className="text-xs text-stone-500 uppercase tracking-wider mt-0.5">
-              {t('hero.stats.disbursed')}
-            </div>
+            <div className="text-xs text-stone-500 uppercase tracking-wider mt-0.5">Deployed to Frontlines</div>
           </div>
           <div>
             <div className="text-2xl font-serif font-bold text-stone-900 tabular-nums">1.8M+</div>
-            <div className="text-xs text-stone-500 uppercase tracking-wider mt-0.5">
-              {t('hero.stats.lives')}
-            </div>
+            <div className="text-xs text-stone-500 uppercase tracking-wider mt-0.5">Rural Lives Impacted</div>
           </div>
           <div>
             <div className="text-2xl font-serif font-bold text-stone-900 tabular-nums">50% / 100%</div>
-            <div className="text-xs text-stone-500 uppercase tracking-wider mt-0.5">
-              {t('hero.stats.tax')}
-            </div>
+            <div className="text-xs text-stone-500 uppercase tracking-wider mt-0.5">Section 80G Tax Exemption</div>
           </div>
         </motion.div>
       </div>
